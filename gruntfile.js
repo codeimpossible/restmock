@@ -1,12 +1,21 @@
 module.exports = function(grunt) {
+    function withVendor() {
+        return {
+            src: [
+                'src/*.js'
+            ],
+            options: {
+                vendor: Array.prototype.slice.call(arguments, 0)
+            }
+        };
+    };
+
     grunt.initConfig({
 
         meta: {
             files: {
                 libs: [
-                    'public/jquery.js',
-                    'public/underscore.js',
-                    'public/backbone.js'
+                    'public/jquery.js'
                 ],
                 out: [
                     'src/*.js'
@@ -32,23 +41,20 @@ module.exports = function(grunt) {
         },
 
         jasmine: {
-            unit: {
-                src: [
-                    '<%= meta.files.out %>'
-                ],
-                options: {
-                    vendor: [
-                        '<%= meta.files.libs %>'
-                    ],
-                    specs: 'spec/*_spec.js',
-                    helpers: ['spec/helpers/**/*.js']
-                }
-            }
+            options: {
+                specs: 'spec/*_spec.js',
+                helpers: ['spec/helpers/**/*.js']
+            },
+            jquery20: withVendor('public/jquery.2.0.3.js'),
+            jquery110: withVendor('public/jquery.1.10.2.js'),
+            jquery19: withVendor('public/jquery.1.9.1.js'),
+            jquery18: withVendor('public/jquery.1.8.3.js'),
+            jquery17: withVendor('public/jquery.1.7.2.js')
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-coffee');
 
-    grunt.registerTask('default', [ 'coffee', 'jasmine:unit' ] );
+    grunt.registerTask('default', [ 'coffee', 'jasmine' ] );
 };

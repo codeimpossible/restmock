@@ -6,10 +6,19 @@ RestMock
 
 A simple mock library for jQuery AJAX requests.
 
+## jQuery Versions
+RestMock has been tested against the following jQuery versions:
+
+ - v2.0.3
+ - v1.10.2
+ - v1.9.1
+ - v1.8.3
+ - v1.7.2
+
 ### Example: fetching data (using Backbone)
 
 ``` javascript
-// use RestMock to fake any ajax request 
+// use RestMock to fake any ajax request
 // to /products/N where N is 1 or more digits
 RestMock.addHandlers({
   "get /products/(\\d+)": function( id ) {
