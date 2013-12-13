@@ -13,3 +13,7 @@ results
 build
 
 node_modules
+
+# ignore coffee-script outputs
+spec/*.js
+spec/helpers/general_helper.js
