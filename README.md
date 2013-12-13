@@ -48,3 +48,26 @@ product.fetch().then(function() {
 ```
 
 [Try it yourself](http://jsbin.com/OnIbAXU/2/edit?js,console)
+
+### Example: delaying a mock response
+
+``` javascript
+// use RestMock to fake any ajax request 
+// to /products/N where N is 1 or more digits
+RestMock.addHandlers({
+  "get /products/(\\d+)": function( id ) {
+    this.delayResponse(10 * 1000); // delay the response by 10 seconds
+    return {
+      id: id,
+      name: "goldie blox",
+      qa_testers: [{
+        id: 1,
+        name: "Julie"
+      },{
+        id: 2,
+        name: "Francis"
+      }]
+    };
+  }
+});
+```
