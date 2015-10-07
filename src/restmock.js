@@ -19,7 +19,22 @@
 //     }
 //    });
 // ```
-(function($, global) {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], function (jquery) {
+            return (root.returnExportsGlobal = factory(jquery));
+        });
+    } else if (typeof module === 'object' && module.exports) {
+        // Node. Does not work with strict CommonJS, but
+        // only CommonJS-like enviroments that support module.exports,
+        // like Node.
+        module.exports = factory(require('jquery'));
+    } else {
+        // Browser globals
+        root.returnExportsGlobal = factory(root.jQuery);
+    }
+}(this, function ($) {
     // create a copy of the jQuery AJAX method
     $._restMockAjax = $.ajax;
 
@@ -49,8 +64,13 @@
         };
 
     /* jshint unused: false */
-    var RestMockInterceptor = global.RestMock = {
+    var RestMockInterceptor = RestMock = {
         _ajax: null,
+        _backbone: null,
+        bindToBackbone: function(Backbone) {
+          _backbone = Backbone;
+          return this;
+        },
         intercept: function( url, options ) {
             var promise = null,
                 deferred = $.Deferred(),
@@ -158,12 +178,12 @@
         reset: function() {
             $.ajax = $._restMockAjax;
             // feed the new jquery to Backbone
-            if(global.Backbone) {
-                if( global.Backbone.setDomLibrary ) {
-                    global.Backbone.setDomLibrary($);
+            if(RestMockInterceptor._backbone) {
+                if( RestMockInterceptor._backbone.setDomLibrary ) {
+                    RestMockInterceptor._backbone.setDomLibrary($);
                 }
-                if( global.Backbone.$ ) {
-                    global.Backbone.$ = $;
+                if( RestMockInterceptor._backbone.$ ) {
+                    RestMockInterceptor._backbone.$ = $;
                 }
             }
         },
@@ -172,12 +192,12 @@
                 this._ajax = $._restMockAjax;
                 $.ajax = this.intercept;
 
-                if(global.Backbone) {
-                    if( global.Backbone.setDomLibrary ) {
-                        global.Backbone.setDomLibrary($);
+                if(RestMockInterceptor._backbone) {
+                    if( RestMockInterceptor._backbone.setDomLibrary ) {
+                        RestMockInterceptor._backbone.setDomLibrary($);
                     }
-                    if( global.Backbone.$ ) {
-                        global.Backbone.$ = $;
+                    if( RestMockInterceptor._backbone.$ ) {
+                        RestMockInterceptor._backbone.$ = $;
                     }
                 }
             }
@@ -193,4 +213,5 @@
             }
         }
     };
-})(jQuery, this);
+    return RestMock;
+}));
