@@ -12,7 +12,7 @@ logs
 results
 build
 
-node_modules
+node_modules/
 
 # ignore coffee-script outputs
 spec/*.js
