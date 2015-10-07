@@ -1,3 +1,3 @@
 beforeEach () ->
-  @.addMatchers
+  jasmine.addMatchers
     toBeInstanceOf: (obj) -> @.actual instanceof obj

@@ -43,7 +43,7 @@ module.exports = function(grunt) {
         jasmine: {
             options: {
                 specs: 'spec/*_spec.js',
-                helpers: ['spec/helpers/**/*.js']
+                helpers: ['spec/helpers/**/*.js', 'node_modules/jasmine-jquery/lib/jasmine-jquery.js']
             },
             jquery20: withVendor('public/jquery.2.0.3.js'),
             jquery110: withVendor('public/jquery.1.10.2.js'),

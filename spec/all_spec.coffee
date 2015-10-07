@@ -9,9 +9,9 @@ describe "RestMock", ->
         response: "hi"
 
     spyOn jQuery, "ajax"
-    spyOn(RestMock, "intercept").andCallThrough()
-    spyOn(mockServer, "failure").andCallThrough()
-    spyOn(mockServer, "success").andCallThrough()
+    spyOn(RestMock, "intercept").and.callThrough()
+    spyOn(mockServer, "failure").and.callThrough()
+    spyOn(mockServer, "success").and.callThrough()
 
   afterEach ->
     RestMock.reset()
@@ -73,5 +73,3 @@ describe "RestMock", ->
         expect(@data.test).toBe "hello"
 
       $.post "/test/something", "{ \"test\": \"hello\" }"
-
-
